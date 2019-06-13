@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>Welcome to MkDocs - 306实验室服务器使用规范</title>
+  <title>第4章 注意事项 - 306实验室服务器使用规范</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,8 +17,8 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "Welcome to MkDocs";
-    var mkdocs_page_input_path = "test.md";
+    var mkdocs_page_name = "\u7b2c4\u7ae0 \u6ce8\u610f\u4e8b\u9879";
+    var mkdocs_page_input_path = "chapter_4.md";
     var mkdocs_page_url = null;
   </script>
   
@@ -63,9 +63,25 @@
     <a class="" href="../chapter_3/">第3章 Anaconda虚拟环境配置</a>
 	    </li>
           
-            <li class="toctree-l1">
+            <li class="toctree-l1 current">
 		
-    <a class="" href="../chapter_4/">第4章 注意事项</a>
+    <a class="current" href="./">第4章 注意事项</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#4">第4章 注意事项</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#41-cpu">4.1 CPU多线程问题：</a></li>
+        
+            <li><a class="toctree-l3" href="#42-gpu">4.2 GPU多卡设置问题：</a></li>
+        
+            <li><a class="toctree-l3" href="#43">4.3 重要</a></li>
+        
+        </ul>
+    
+
+    </ul>
 	    </li>
           
             <li class="toctree-l1">
@@ -95,7 +111,7 @@
     
       
     
-    <li>Welcome to MkDocs</li>
+    <li>第4章 注意事项</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -105,25 +121,39 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="welcome-to-mkdocs">Welcome to MkDocs</h1>
-<p>For full documentation visit <a href="https://mkdocs.org">mkdocs.org</a>.</p>
-<h2 id="commands">Commands</h2>
-<ul>
-<li><code>mkdocs new [dir-name]</code> - Create a new project.</li>
-<li><code>mkdocs serve</code> - Start the live-reloading docs server.</li>
-<li><code>mkdocs build</code> - Build the documentation site.</li>
-<li><code>mkdocs help</code> - Print this help message.</li>
-</ul>
-<h2 id="project-layout">Project layout</h2>
-<pre><code>mkdocs.yml    # The configuration file.
-docs/
-    index.md  # The documentation homepage.
-    ...       # Other markdown pages, images and other files.
-</code></pre>
+                <h1 id="4">第4章 注意事项</h1>
+<h2 id="41-cpu">4.1 CPU多线程问题：</h2>
+<p>&emsp;&emsp;使用PyTorch、tensorflow、keras等提交任务时, System部分的CPU占比较高时，推荐在代码内部最开始的地方添加下列语句(其中num是在作业系统中申请的CPU线程数)，避免频繁切换线程造成系统CPU占用过高，影响自己和他人的运行速度。<br />
+&emsp;&emsp;<strong>Pytorch:</strong><br />
+&emsp;&emsp;torch.set_num_threads(num) # Sets the number of OpenMP threads used for parallelizing CPU operations<br />
+&emsp;&emsp;<strong>tensorflow/keras:</strong><br />
+&emsp;&emsp;cpu_config = tf.ConfigProto(intra_op_parallelism_threads = num, inter_op_parallelism_threads = num, device_count = {'CPU': num})<br />
+&emsp;&emsp;sess = tf.Session(config=cpu_config)</p>
+<h2 id="42-gpu">4.2 GPU多卡设置问题：</h2>
+<p>&emsp;&emsp;查看显卡信息命令： nvidia-smi<br />
+&emsp;&emsp;在用tensorflow、pytorch、keras等训练深度学习模型的时候，假设我们在训练之前没有指定GPU来进行训练，则默认的是选用第0块GPU来训练我们的模型，而且其它几块GPU的也会显示被占用。有些时候，我们更希望可以通过自己指定一块或者几块GPU来训练我们的模型，而不是用这种默认的方法。<br />
+&emsp;&emsp;现有GPU情况：
+ <img alt="avatar" src="/images/4.2.png" />  </p>
+<p>&emsp;&emsp;假设我们要用我们的第2块GPU来训练模型，此时可以通过下面的代码来指定(注意设备编号从0开始！)：<br />
+&emsp;&emsp;•  import os<br />
+&emsp;&emsp;•  os.environ['CUDA_VISIBLE_DEVICES']='1'<br />
+&emsp;&emsp;同样，如果要指定2，3块GPU来训练，则上面的代码可以改成：<br />
+&emsp;&emsp;os.environ['CUDA_VISIBLE_DEVICES']='1，2'  </p>
+<h2 id="43">4.3 重要</h2>
+<p>&emsp;&emsp;最后，但是也很重要的是，遇到问题，请联系管理员！</p>
               
             </div>
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../chapter_5/" class="btn btn-neutral float-right" title="第5章 最近更新">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../chapter_3/" class="btn btn-neutral" title="第3章 Anaconda虚拟环境配置"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -147,6 +177,10 @@ docs/
     <span class="rst-current-version" data-toggle="rst-current-version">
       
       
+        <span><a href="../chapter_3/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../chapter_5/" style="color: #fcfcfc">Next &raquo;</a></span>
       
     </span>
 </div>
