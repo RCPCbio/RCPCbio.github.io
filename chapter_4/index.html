@@ -8,7 +8,7 @@
   
   
   <link rel="shortcut icon" href="../img/favicon.ico">
-  <title>第4章 注意事项 - 306实验室服务器使用规范</title>
+  <title>第4章 CPU和GPU使用注意事项 - 实验室服务器使用规范及组合制度</title>
   <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
 
   <link rel="stylesheet" href="../css/theme.css" type="text/css" />
@@ -17,7 +17,7 @@
   
   <script>
     // Current page data
-    var mkdocs_page_name = "\u7b2c4\u7ae0 \u6ce8\u610f\u4e8b\u9879";
+    var mkdocs_page_name = "\u7b2c4\u7ae0 CPU\u548cGPU\u4f7f\u7528\u6ce8\u610f\u4e8b\u9879";
     var mkdocs_page_input_path = "chapter_4.md";
     var mkdocs_page_url = null;
   </script>
@@ -36,7 +36,7 @@
     
     <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
       <div class="wy-side-nav-search">
-        <a href=".." class="icon icon-home"> 306实验室服务器使用规范</a>
+        <a href=".." class="icon icon-home"> 实验室服务器使用规范及组合制度</a>
         <div role="search">
   <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
@@ -50,7 +50,7 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="..">第1章 服务器概况</a>
+    <a class="" href="..">第1章 组会制度服务器概况</a>
 	    </li>
           
             <li class="toctree-l1">
@@ -65,10 +65,10 @@
           
             <li class="toctree-l1 current">
 		
-    <a class="current" href="./">第4章 注意事项</a>
+    <a class="current" href="./">第4章 CPU和GPU使用注意事项</a>
     <ul class="subnav">
             
-    <li class="toctree-l2"><a href="#4">第4章 注意事项</a></li>
+    <li class="toctree-l2"><a href="#4-cpugpu">第4章 CPU和GPU使用注意事项</a></li>
     
         <ul>
         
@@ -86,7 +86,7 @@
           
             <li class="toctree-l1">
 		
-    <a class="" href="../chapter_5/">第5章 最近更新</a>
+    <a class="" href="../chapter_5/">第5章 Tensorboard及screen</a>
 	    </li>
           
         </ul>
@@ -99,7 +99,7 @@
       
       <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
         <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-        <a href="..">306实验室服务器使用规范</a>
+        <a href="..">实验室服务器使用规范及组合制度</a>
       </nav>
 
       
@@ -111,7 +111,7 @@
     
       
     
-    <li>第4章 注意事项</li>
+    <li>第4章 CPU和GPU使用注意事项</li>
     <li class="wy-breadcrumbs-aside">
       
     </li>
@@ -121,7 +121,7 @@
           <div role="main">
             <div class="section">
               
-                <h1 id="4">第4章 注意事项</h1>
+                <h1 id="4-cpugpu">第4章 CPU和GPU使用注意事项</h1>
 <h2 id="41-cpu">4.1 CPU多线程问题：</h2>
 <p>&emsp;&emsp;使用PyTorch、tensorflow、keras等提交任务时, System部分的CPU占比较高时，推荐在代码内部最开始的地方添加下列语句(其中num是在作业系统中申请的CPU线程数)，避免频繁切换线程造成系统CPU占用过高，影响自己和他人的运行速度。<br />
 &emsp;&emsp;<strong>Pytorch:</strong><br />
@@ -148,7 +148,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="../chapter_5/" class="btn btn-neutral float-right" title="第5章 最近更新">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../chapter_5/" class="btn btn-neutral float-right" title="第5章 Tensorboard及screen">Next <span class="icon icon-circle-arrow-right"></span></a>
       
       
         <a href="../chapter_3/" class="btn btn-neutral" title="第3章 Anaconda虚拟环境配置"><span class="icon icon-circle-arrow-left"></span> Previous</a>
