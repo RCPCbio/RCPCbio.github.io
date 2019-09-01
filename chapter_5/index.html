@@ -135,7 +135,8 @@
 <p>&emsp;&emsp;<strong>建立ssh隧道，实现远程端口到本地端口的转发</strong><br />
 &emsp;&emsp;具体来说就是将远程服务器的6006端口（tensorboard默认将数据放在6006端口）转发到本地的16006端口，在本地对16006端口的访问即是对远程6006端口的访问，当然，转发到本地某一端口不是限定的，可自由选择。</p>
 <h2 id="52-screen">5.2 使用screen命令提交程序</h2>
-<p>&emsp;&emsp;<a href="https://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html">https://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html</a><br />
+<p>&emsp;&emsp;服务器使用中，如果本地电脑与服务器断开连接，在服务器上的程序就不会运行，使用screen可以实现离线使用<br />
+&emsp;&emsp;<a href="https://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html">https://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html</a><br />
 &emsp;&emsp;常用命令：<br />
 &emsp;&emsp;恢复对话 screen -r yourname<br />
 &emsp;&emsp;将screen挂起 screen -d yourname<br />
