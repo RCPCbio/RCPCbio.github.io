@@ -5,14 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Tensorboard及screen - Perception Computing Lab</title>
+    <title>CPU和GPU使用注意事项 - Perception Computing Lab</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/styles/github.min.css" />
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Tensorboard\u53cascreen";
+        var mkdocs_page_name = "CPU\u548cGPU\u4f7f\u7528\u6ce8\u610f\u4e8b\u9879";
         var mkdocs_page_input_path = "chapter5.md";
         var mkdocs_page_url = null;
       </script>
@@ -45,35 +45,31 @@
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../chapter2/">服务器远程连接</a>
+                <li class="toctree-l1"><a class="reference internal" href="../chapter2/">实验室人员分工</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../chapter3/">Anaconda虚拟环境配置</a>
+                <li class="toctree-l1"><a class="reference internal" href="../chapter3/">服务器远程连接</a>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../chapter4/">CPU和GPU使用注意事项</a>
+                <li class="toctree-l1"><a class="reference internal" href="../chapter4/">Anaconda虚拟环境配置</a>
                 </li>
               </ul>
               <ul class="current">
-                <li class="toctree-l1 current"><a class="reference internal current" href="./">Tensorboard及screen</a>
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">CPU和GPU使用注意事项</a>
     <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#51-tensorboard">5.1 本地客户端远程访问服务器Tensorboard</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#511">5.1.1 实现</a>
+    <li class="toctree-l2"><a class="reference internal" href="#51-cpu">5.1 CPU多线程问题：</a>
     </li>
-    <li class="toctree-l3"><a class="reference internal" href="#512">5.1.2 原理</a>
+    <li class="toctree-l2"><a class="reference internal" href="#52-gpu">5.2 GPU多卡设置问题：</a>
     </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#52-screen">5.2 使用screen命令提交程序</a>
+    <li class="toctree-l2"><a class="reference internal" href="#53">5.3 重要</a>
     </li>
     </ul>
                 </li>
               </ul>
               <ul>
-                <li class="toctree-l1"><a class="reference internal" href="../chapter6/">实验室人员分工</a>
+                <li class="toctree-l1"><a class="reference internal" href="../chapter6/">Tensorboard及screen</a>
                 </li>
               </ul>
       </div>
@@ -90,7 +86,7 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
-      <li>Tensorboard及screen</li>
+      <li>CPU和GPU使用注意事项</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -99,59 +95,30 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="5-tensorboardscreen">第5章 Tensorboard及screen</h1>
-<h2 id="51-tensorboard">5.1 本地客户端远程访问服务器Tensorboard</h2>
-<p>在学习tensorflow的过程中，可视化工具tensorboard是必不可少的，但是由于本地主机计算性能等的局限性，很多时候我们都是在远程服务器上运行tensor flow并训练相关模型，所以学会相关远程的操作至关重要，这里简述如何访问远程的tensorboard。  </p>
-<h3 id="511">5.1.1 实现</h3>
-<p>在登录远程服务器的时候使用命令：<br />
-  检测tensorflow是否使用GPU进行计算：进入python解释器（输入python即可），然后输入以下代码：<br />
-  ssh -L 16006:127.0.0.1:6006 account@server.address<br />
-  (代替一般ssh远程登录命令：ssh account@server.address)<br />
-  训练完模型之后使用如下命令：<br />
-  tensorboard --logdir="/path/to/log-directory" <br />
-  (其中，/path/to/log-directory为自己设定的日志存放路径，因人而异)<br />
-  检查一下tensorboard是否在6006端口打开。如果不是重新指定端口。<br />
-  最后，在本地访问地址：http://127.0.0.1:16006/  </p>
-<h3 id="512">5.1.2 原理</h3>
-<p>建立ssh隧道，实现远程端口到本地端口的转发<br />
-  具体来说就是将远程服务器的6006端口（tensorboard默认将数据放在6006端口）转发到本地的16006端口，在本地对16006端口的访问即是对远程6006端口的访问，当然，转发到本地某一端口不是限定的，可自由选择。</p>
-<h2 id="52-screen">5.2 使用screen命令提交程序</h2>
-<p>服务器使用中，如果本地电脑与服务器断开连接，在服务器上的程序就不会运行，使用screen可以实现离线使用<br />
-  https://www.cnblogs.com/mchina/archive/2013/01/30/2880680.html<br />
-  常用命令：<br />
-  恢复对话 screen -r yourname<br />
-  将screen挂起 screen -d yourname<br />
-  指定screen作业的名称 screen —S &lt;作业名称&gt;<br />
-  显示目前所有的screen作业 screen -ls<br />
-  退出一个screen exit  </p>
-<p>（1）创建screen<br />
-    screen 这样创建的没有名，系统分配<br />
-    screen -S yourname 新建一个名儿为yourname的窗口<br />
-    screen python main.py 新建一个窗口，并在该窗口下执行main.py(常用！)<br />
-  （2）会话分离（挂起）<br />
-    如果你想关闭ssh终端，可先将会话挂起，执行的程序不会中断！<br />
-    • 先进入一个窗口<br />
-    • Ctrl+a 进入命令模式<br />
-    • 在当前窗口按d即可<br />
-  （3）恢复对话<br />
-    $ screen -ls #列出窗口列表<br />
-    There is a screen on:<br />
-    2637.count (12/17/2015/10:00:32 AM) (Detached)<br />
-    $ screen -r 2637 #进入2637线程，恢复count会话窗口<br />
-  （4）杀死会话窗口<br />
-    如果想关掉一个多余的窗口，有3种方法：<br />
-    • kill -9 threadnum 例如在上面的2637，kill -9 2637 即可杀死线程，当然就杀死了窗口<br />
-    • 使用Ctrl a +k 杀死当前窗口和窗口中运行的程序<br />
-    • 使用Ctrl a   然后输入quit命令退出Screen会话。需要注意的是，这样退出会杀死所有窗口并退出其中运行的所有程序 <br />
-  （5）清除死去的窗口<br />
-    当窗口被杀死后，再用screen -ls 可以看到该窗口后面的(???dead)  字样，说明窗口死了，但是仍在占用空间。这时需要清除窗口<br />
-    $ screen -wipe #自动清除死去的窗口  </p>
+                <h1 id="5-cpugpu">第5章 CPU和GPU使用注意事项</h1>
+<h2 id="51-cpu">5.1 CPU多线程问题：</h2>
+<p>使用PyTorch、tensorflow、keras等提交任务时, System部分的CPU占比较高时，推荐在代码内部最开始的地方添加下列语句(其中num是在作业系统中申请的CPU线程数)，避免频繁切换线程造成系统CPU占用过高，影响自己和他人的运行速度。<br />
+  Pytorch:<br />
+  torch.set_num_threads(num) # Sets the number of OpenMP threads used for parallelizing CPU operations<br />
+  tensorflow/keras:<br />
+  cpu_config = tf.ConfigProto(intra_op_parallelism_threads = num, inter_op_parallelism_threads = num, device_count = {'CPU': num})<br />
+  sess = tf.Session(config=cpu_config)  </p>
+<h2 id="52-gpu">5.2 GPU多卡设置问题：</h2>
+<p>查看显卡信息命令： nvidia-smi<br />
+  在用tensorflow、pytorch、keras等训练深度学习模型的时候，假设我们在训练之前没有指定GPU来进行训练，则默认的是选用第0块GPU来训练我们的模型，而且其它几块GPU的也会显示被占用。有些时候，我们更希望可以通过自己指定一块或者几块GPU来训练我们的模型，而不是用这种默认的方法。  </p>
+<p>假设我们要用我们的第2块GPU来训练模型，此时可以通过下面的代码来指定(注意设备编号从0开始！)：<br />
+  • import os<br />
+  • os.environ['CUDA_VISIBLE_DEVICES']='1'<br />
+  同样，如果要指定2，3块GPU来训练，则上面的代码可以改成：<br />
+  os.environ['CUDA_VISIBLE_DEVICES']='1，2'  </p>
+<h2 id="53">5.3 重要</h2>
+<p>最后，但是也很重要的是，遇到问题，请联系管理员！</p>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../chapter4/" class="btn btn-neutral float-left" title="CPU和GPU使用注意事项"><span class="icon icon-circle-arrow-left"></span> Previous</a>
-        <a href="../chapter6/" class="btn btn-neutral float-right" title="实验室人员分工">Next <span class="icon icon-circle-arrow-right"></span></a>
+        <a href="../chapter4/" class="btn btn-neutral float-left" title="Anaconda虚拟环境配置"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../chapter6/" class="btn btn-neutral float-right" title="Tensorboard及screen">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
